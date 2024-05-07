@@ -1,15 +1,25 @@
-const binarySearchIterative = (arr, target) => {
-  let left = 0;
-  let right = arr.length - 1;
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    if (arr[mid] === target) {
-      return mid;
-    } else if (arr[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
+function ladderLength(beginWord, endWord, wordList) {
+  const wordSet = new Set(wordList);
+  if (!wordSet.has(endWord)) return 0;
+  let count = 0;
+  const queue = [beginWord];
+  while (queue.length) {
+    const size = queue.length;
+    count++;
+    for (let i = 0; i < size; i++) {
+      const current = queue.shift();
+      if (current === endWord) return count;
+      for (let j = 0; j < current.length; j++) {
+        for (let k = 97; k <= 122; k++) {
+          const newWord =
+            current.slice(0, j) + String.fromCharCode(k) + current.slice(j + 1);
+          if (wordSet.has(newWord)) {
+            queue.push(newWord);
+            wordSet.delete(newWord);
+          }
+        }
+      }
     }
   }
-  return -1;
-};
+  return 0;
+}
