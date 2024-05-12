@@ -1,14 +1,17 @@
-function subarraySum(nums, k) {
-  const map = new Map();
-  map.set(0, 1);
-  let count = 0;
-  let sum = 0;
-  for (const num of nums) {
-    sum += num;
-    if (map.has(sum - k)) {
-      count += map.get(sum - k);
-    }
-    map.set(sum, (map.get(sum) || 0) + 1);
+function rotateRight(head, k) {
+  if (!head || k === 0) return head;
+  let length = 1;
+  let tail = head;
+  while (tail.next) {
+    length++;
+    tail = tail.next;
   }
-  return count;
+  k = k % length;
+  if (k === 0) return head;
+  let newTail = head;
+  for (let i = 1; i < length - k; i++) newTail = newTail.next;
+  const newHead = newTail.next;
+  newTail.next = null;
+  tail.next = head;
+  return newHead;
 }
