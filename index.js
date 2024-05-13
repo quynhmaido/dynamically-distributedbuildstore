@@ -1,17 +1,10 @@
-function rotateRight(head, k) {
-  if (!head || k === 0) return head;
-  let length = 1;
-  let tail = head;
-  while (tail.next) {
-    length++;
-    tail = tail.next;
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(amount + 1);
+  dp[0] = 0;
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+    }
   }
-  k = k % length;
-  if (k === 0) return head;
-  let newTail = head;
-  for (let i = 1; i < length - k; i++) newTail = newTail.next;
-  const newHead = newTail.next;
-  newTail.next = null;
-  tail.next = head;
-  return newHead;
+  return dp[amount] > amount ? -1 : dp[amount];
 }
