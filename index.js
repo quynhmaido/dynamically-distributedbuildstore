@@ -1,10 +1,11 @@
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(amount + 1);
-  dp[0] = 0;
-  for (const coin of coins) {
-    for (let i = coin; i <= amount; i++) {
-      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-    }
+function isValidBST(root) {
+  return isValid(root, null, null);
+  function isValid(node, min, max) {
+    if (!node) return true;
+    if ((min !== null && node.val <= min) || (max !== null && node.val >= max))
+      return false;
+    return (
+      isValid(node.left, min, node.val) && isValid(node.right, node.val, max)
+    );
   }
-  return dp[amount] > amount ? -1 : dp[amount];
 }
